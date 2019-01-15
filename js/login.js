@@ -4,9 +4,14 @@ function loginFunction(email, password) {
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var json = JSON.parse(xhr.responseText);
-            console.log(json.password);
+        if (xhr.readyState === 4 && xhr.status === 200) {           
+            var jsonObject = JSON.parse(xhr.responseText);
+            console.log(jsonObject.token);
+            localStorage.setItem('loginObject', JSON.stringify(jsonObject));
+            location.href="index.html";
+        }
+        if (xhr.readyState === 4 && xhr.status != 200) {
+            alert("Something went terribly wrong!");
         }
     };
     var data = JSON.stringify({
@@ -14,4 +19,9 @@ function loginFunction(email, password) {
         "username": email
     });
     xhr.send(data);
+}
+
+function printStorage() {  
+    var retrievedObject = localStorage.getItem('loginObject');
+    console.log('Barer', JSON.parse(retrievedObject).token);   
 }
