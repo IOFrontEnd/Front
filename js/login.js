@@ -1,5 +1,4 @@
-
-function loginFunction(email,password){
+function loginFunction(email, password) {
     var xhr = new XMLHttpRequest();
     var url = "http://104.248.142.195:8080/login";
     xhr.open("POST", url, true);
@@ -10,6 +9,9 @@ function loginFunction(email,password){
             console.log(json.password);
         }
     };
-    var data = JSON.stringify({"password": password, "username": email});
+    var data = JSON.stringify({
+        "password": password,
+        "username": email
+    });
     xhr.send(data);
 }
