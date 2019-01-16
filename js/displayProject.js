@@ -101,7 +101,7 @@ function addComment() {
         console.log(data);
         xhr.send(data);
     } else {
-        alert("Upewnij sie, ze jestes zalogowany!");
+        alert("Make sure you are logged in!");
     }
 }
 

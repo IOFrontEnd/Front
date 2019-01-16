@@ -17,13 +17,14 @@ $(function addProject() {
                     +'">' 
                     + projects[i].projectName +
                     '</a><span class="badge badge-primary" style="float:right;">Liczba glosow: ' + projects[i].voteAmount +
-                    '</span></h5><div id="project1">'+ projects[i].description.slice(0, 200); +'</div></li>';
+                    '</span></h5><div>'+ projects[i].description.slice(0, 200); +'</div></li>';
                 }
                 document.getElementById("projectList").innerHTML = projectsToDisplay;
                 document.getElementById("projectList").onclick = projectSelected;
             }
-            if (xhr.readyState === 4 && xhr.status != 200) {
-                alert("Something went terribly wrong!");
+            else if (xhr.readyState === 4 && xhr.status != 200) {
+                var jsonObject = JSON.parse(xhr.responseText);
+                alert(jsonObject.message);
             }
         };
         xhr.send();
@@ -34,6 +35,8 @@ $(function addProject() {
 
 function projectSelected(event) {
     var element = event.target
-    localStorage.setItem('projectId', element.id);
-    location.href="wybranyProjekt.html";
+    if(element.id != ""){
+        localStorage.setItem('projectId', element.id);
+        location.href="wybranyProjekt.html";
+    }
 }

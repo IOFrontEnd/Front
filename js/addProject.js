@@ -11,8 +11,9 @@ function addProject(address,budget,description,neighbourhood,projectName) {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 location.href = "index.html";
             }
-            if (xhr.readyState === 4 && xhr.status != 200) {
-                alert("Something went terribly wrong!");
+            else if (xhr.readyState === 4 && xhr.status != 200) {
+                var jsonObject = JSON.parse(xhr.responseText);
+                alert(jsonObject.message);
             }
         };
         var data = JSON.stringify({
