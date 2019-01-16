@@ -6,7 +6,6 @@ function loginFunction(email, password) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {           
             var jsonObject = JSON.parse(xhr.responseText);
-            console.log(jsonObject.token);
             localStorage.setItem('loginObject', JSON.stringify(jsonObject));
             location.href="index.html";
         }
@@ -22,6 +21,5 @@ function loginFunction(email, password) {
 }
 
 function printStorage() {  
-    var retrievedObject = localStorage.getItem('loginObject');
-    console.log('Barer', JSON.parse(retrievedObject).token);   
+    var retrievedObject = localStorage.getItem('loginObject');  
 }

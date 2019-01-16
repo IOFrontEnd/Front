@@ -5,7 +5,6 @@ function loginFunction(address, email, firstName, identifierNo, password, surnam
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) { 
-            console.log("added user to DB");
         }
     };
     var data = JSON.stringify({

@@ -9,7 +9,6 @@ function addProject(address,budget,description,neighbourhood,projectName) {
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log("added project");
                 location.href = "index.html";
             }
             if (xhr.readyState === 4 && xhr.status != 200) {
