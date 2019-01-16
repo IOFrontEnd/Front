@@ -37,9 +37,10 @@ function vote(){
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                
-            }
-            if (xhr.readyState === 4 && xhr.status != 200) {
-                alert("Już zagłosowałes na ten projekt!");
+            }else if (xhr.readyState === 4 && xhr.status !== 200) {
+                // alert("Już zagłosowałes na ten projekt!");
+                var jsonObject = JSON.parse(xhr.responseText);
+                alert(jsonObject.message);
             }
         };
         xhr.send();
@@ -61,15 +62,16 @@ function addComment(){
         xhr.onreadystatechange = function(){
             if(xhr.readyState === 4 && xhr.status !== 200){
                 alert("Nie udalo sie dodac komentarza!");
+            }else if(xhr.readyState === 4 && xhr.status !== 200){
+                var jsonObject = JSON.parse(xhr.responseText);
+                alert(jsonObject.message);
             }
         };
         var comment = document.getElementById("commentText").value;
-        console.log(localStorage.getItem("projectId"));
         var data = JSON.stringify({
             "comment": comment,
             "projectId": parseInt(id)
         });
-        console.log(data);
         xhr.send(data);
     }else{
         alert("Upewnij sie, ze jestes zalogowany!");
@@ -111,7 +113,8 @@ $(function fetchComments(){
                 }
                 document.getElementById("commentList").innerHTML = commentsToDisplay;
             }else if(xhr.readyState === 4 && xhr.status !== 200){
-                alert("Nie udalo sie pobrac komentarzy!");
+                var jsonObject = JSON.parse(xhr.responseText);
+                alert(jsonObject.message);
             }
         }
         xhr.send();
