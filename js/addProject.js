@@ -20,7 +20,7 @@ function addProject(address,budget,description,neighbourhood,projectName) {
             "Address": address,
             "budget": budget,
             "description": description,
-            "id": "80",
+            "id": "83",
             "neighbourhood": "Wojska Polskiego",
             "projectName": projectName,
             "voteAmount": "0"
