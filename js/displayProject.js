@@ -12,18 +12,45 @@ $(function displayProject() {
             break;
         }
     }
+    console.log(selectedProject);
 
     projectsToDisplay += '<li class="list-group-item"><h5><a href="#" id="' + selectedProject.id +
         '">' +
         selectedProject.projectName +
-        '</a><span class="badge badge-primary" style="float:right;">Liczba glosow: ' + selectedProject.voteAmount +
+        '</a><span class="badge badge-primary" style="float:right;" id="votes">Liczba glosow: ' + selectedProject.voteAmount +
         '</span><br> <a href="#" class="badge badge-success" style="float:right;" role="button" onclick="vote()">Zagłosuj na projekt</a></h5><p>' + selectedProject.description + '</p><br><br>' +
         '<p>Dzielnica: ' + selectedProject.neighbourhood + '</p><p>Ulica: ' +
-        selectedProject.Address + '</p><p>Sugerowany koszt: ' +
+        selectedProject.address + '</p><p>Sugerowany koszt: ' +
         selectedProject.budget + 'zł</p></li>';
 
     document.getElementById("project").innerHTML = projectsToDisplay;
 });
+
+
+function updateVotes(){
+    var xhr = new XMLHttpRequest();
+    var url = "http://104.248.142.195:8080/projectManagement/getAllProjects";
+    var retrievedObject = localStorage.getItem('loginObject');
+    if (retrievedObject != null) {
+        var token = 'Bearer ' + JSON.parse(retrievedObject).token
+        xhr.open("GET", url, true);
+        xhr.setRequestHeader("Authorization", token);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var jsonObject = JSON.parse(xhr.responseText);
+                localStorage.setItem('projectsObject', JSON.stringify(jsonObject));
+                location.reload(); 
+            }
+            else if (xhr.readyState === 4 && xhr.status !== 200) {
+                var jsonObject = JSON.parse(xhr.responseText);
+                alert(jsonObject.message);
+            }
+        };
+        xhr.send();
+    } else {
+        alert("Make sure you are logged in!");
+    }
+}
 
 function vote() {
     var xhr = new XMLHttpRequest();
@@ -36,8 +63,8 @@ function vote() {
         xhr.setRequestHeader("Authorization", token);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-
-            } else if (xhr.readyState === 4 && xhr.status != 200) {
+                updateVotes();
+            } else if (xhr.readyState === 4 && xhr.status !== 200) {
                 var jsonObject = JSON.parse(xhr.responseText);
                 alert(jsonObject.message);
             }
@@ -60,8 +87,8 @@ function addComment() {
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                location.href="wybranyProjekt.html";
-            } else if (xhr.readyState === 4 && xhr.status != 200) {
+                location.href = "wybranyProjekt.html";
+            } else if (xhr.readyState === 4 && xhr.status !== 200) {
                 var jsonObject = JSON.parse(xhr.responseText);
                 alert(jsonObject.message);
             }
@@ -112,7 +139,7 @@ $(function fetchComments() {
                   </div>`;
                 }
                 document.getElementById("commentList").innerHTML = commentsToDisplay;
-            } else if (xhr.readyState === 4 && xhr.status != 200) {
+            } else if (xhr.readyState === 4 && xhr.status !== 200) {
                 var jsonObject = JSON.parse(xhr.responseText);
                 alert(jsonObject.message);
             }
