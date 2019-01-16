@@ -17,15 +17,15 @@ $(function displayProject() {
         '">' +
         selectedProject.projectName +
         '</a><span class="badge badge-primary" style="float:right;">Liczba glosow: ' + selectedProject.voteAmount +
-        '</span><br> <a href="#" class="badge badge-success" style="float:right;" role="button" onclick="vote()">Zagłosuj na projekt</a></h5><p>' + selectedProject.description + '</p><br><br>'+
-        '<p>Dzielnica: ' + selectedProject.neighbourhood+'</p><p>Ulica: '
-        + selectedProject.Address+'</p><p>Sugerowany koszt: '
-        + selectedProject.budget +'zł</p></li>';
+        '</span><br> <a href="#" class="badge badge-success" style="float:right;" role="button" onclick="vote()">Zagłosuj na projekt</a></h5><p>' + selectedProject.description + '</p><br><br>' +
+        '<p>Dzielnica: ' + selectedProject.neighbourhood + '</p><p>Ulica: ' +
+        selectedProject.Address + '</p><p>Sugerowany koszt: ' +
+        selectedProject.budget + 'zł</p></li>';
 
     document.getElementById("project").innerHTML = projectsToDisplay;
 });
 
-function vote(){
+function vote() {
     var xhr = new XMLHttpRequest();
     var url = "http://104.248.142.195:8080/projectManagement/voteForProject/project/";
     var id = localStorage.getItem('projectId');
@@ -36,9 +36,8 @@ function vote(){
         xhr.setRequestHeader("Authorization", token);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-               
-            }else if (xhr.readyState === 4 && xhr.status !== 200) {
-                // alert("Już zagłosowałes na ten projekt!");
+
+            } else if (xhr.readyState === 4 && xhr.status != 200) {
                 var jsonObject = JSON.parse(xhr.responseText);
                 alert(jsonObject.message);
             }
@@ -49,20 +48,20 @@ function vote(){
     }
 }
 
-function addComment(){
+function addComment() {
     var xhr = new XMLHttpRequest();
     var url = "http://104.248.142.195:8080/projectManagement/addCommentToProject";
     var retrievedObject = localStorage.getItem("loginObject");
     var id = localStorage.getItem("projectId");
-    if(retrievedObject != null && id != null){
+    if (retrievedObject != null && id != null) {
         var token = "Bearer " + JSON.parse(retrievedObject).token;
         xhr.open("POST", url, true);
-        xhr.setRequestHeader("Authorization",token);
+        xhr.setRequestHeader("Authorization", token);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4 && xhr.status !== 200){
-                alert("Nie udalo sie dodac komentarza!");
-            }else if(xhr.readyState === 4 && xhr.status !== 200){
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                location.href="wybranyProjekt.html";
+            } else if (xhr.readyState === 4 && xhr.status != 200) {
                 var jsonObject = JSON.parse(xhr.responseText);
                 alert(jsonObject.message);
             }
@@ -72,26 +71,27 @@ function addComment(){
             "comment": comment,
             "projectId": parseInt(id)
         });
+        console.log(data);
         xhr.send(data);
-    }else{
+    } else {
         alert("Upewnij sie, ze jestes zalogowany!");
     }
 }
 
-$(function fetchComments(){
+$(function fetchComments() {
     var xhr = new XMLHttpRequest();
     var url = "http://104.248.142.195:8080/projectManagement/getComments/project/";
     var retrievedObject = localStorage.getItem("loginObject");
     var id = localStorage.getItem("projectId");
-    if(retrievedObject != null && id != null){
+    if (retrievedObject != null && id != null) {
         var token = "Bearer " + JSON.parse(retrievedObject).token;
-        xhr.open("GET",url + id.toString(10), true);
-        xhr.setRequestHeader("Authorization",token);
+        xhr.open("GET", url + id.toString(10), true);
+        xhr.setRequestHeader("Authorization", token);
         var commentsToDisplay = "";
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4 && xhr.status === 200){
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
                 var comments = JSON.parse(xhr.responseText).listOfComments;
-                for(var i = 0; i < comments.length; i++){
+                for (var i = 0; i < comments.length; i++) {
                     commentsToDisplay += `<div class="col-sm-8 mb-3">
                     <div class="panel panel-white post panel-shadow">
                       <div class="post-heading">
@@ -112,13 +112,13 @@ $(function fetchComments(){
                   </div>`;
                 }
                 document.getElementById("commentList").innerHTML = commentsToDisplay;
-            }else if(xhr.readyState === 4 && xhr.status !== 200){
+            } else if (xhr.readyState === 4 && xhr.status != 200) {
                 var jsonObject = JSON.parse(xhr.responseText);
                 alert(jsonObject.message);
             }
         }
         xhr.send();
-    }else{
+    } else {
         alert("Upewnij sie, ze jestes zalogowany!");
     }
 });
