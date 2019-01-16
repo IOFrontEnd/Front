@@ -17,11 +17,15 @@ $(function displayProject() {
         '">' +
         selectedProject.projectName +
         '</a><span class="badge badge-primary" style="float:right;">Liczba glosow: ' + selectedProject.voteAmount +
-        '</span></h5><p>' + selectedProject.description + '</p><br><br>'+
+        '</span><br> <a href="#" class="badge badge-success" style="float:right;" role="button" onclick="vote()">Zagłosuj na projekt</a></h5><p>' + selectedProject.description + '</p><br><br>'+
         '<p>Dzielnica: ' + selectedProject.neighbourhood+'</p><p>Ulica: '
         + selectedProject.Address+'</p><p>Sugerowany koszt: '
         + selectedProject.budget +'zł</p></li>';
 
     document.getElementById("project").innerHTML = projectsToDisplay;
 });
+
+function vote(){
+
+}
 
