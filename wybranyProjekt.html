@@ -35,8 +35,8 @@
                     <div class="widget-area no-padding blank">
                     <div class="status-upload pb-2">
                       <form>
-                        <textarea placeholder="Co sądzisz na temat tego projektu?" ></textarea>
-                        <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i>Wyślij</button>
+                        <textarea id="commentText" placeholder="Co sądzisz na temat tego projektu?" ></textarea>
+                        <button onclick="addComment()" type="submit" class="btn btn-success green"><i class="fa fa-share"></i>Wyślij</button>
                       </form>
                     </div><!-- Status Upload  -->
                   </div><!-- Widget Area -->
@@ -48,8 +48,8 @@
   <!--Tu wyswietlamy-->
 
   <div class="container mb-5">
-    <div class="row d-flex justify-content-center">
-      <div class="col-sm-8">
+    <div class="row d-flex justify-content-center" id="commentList">
+      <!-- <div class="col-sm-8 mb-3">
         <div class="panel panel-white post panel-shadow">
           <div class="post-heading">
             <div class="pull-left image">
@@ -66,7 +66,7 @@
             <p>Html jest najlepszym językiem programowania dla humanistów po studiach.</p>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 

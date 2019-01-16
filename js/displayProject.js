@@ -26,6 +26,96 @@ $(function displayProject() {
 });
 
 function vote(){
-
+    var xhr = new XMLHttpRequest();
+    var url = "http://104.248.142.195:8080/projectManagement/voteForProject/project/";
+    var id = localStorage.getItem('projectId');
+    var retrievedObject = localStorage.getItem('loginObject');
+    if (retrievedObject != null && id != null) {
+        var token = 'Bearer ' + JSON.parse(retrievedObject).token;
+        xhr.open("GET", url + id.toString(10), true);
+        xhr.setRequestHeader("Authorization", token);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+               
+            }
+            if (xhr.readyState === 4 && xhr.status != 200) {
+                alert("Już zagłosowałes na ten projekt!");
+            }
+        };
+        xhr.send();
+    } else {
+        alert("Make sure you are logged in!");
+    }
 }
 
+function addComment(){
+    var xhr = new XMLHttpRequest();
+    var url = "http://104.248.142.195:8080/projectManagement/addCommentToProject";
+    var retrievedObject = localStorage.getItem("loginObject");
+    var id = localStorage.getItem("projectId");
+    if(retrievedObject != null && id != null){
+        var token = "Bearer " + JSON.parse(retrievedObject).token;
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Authorization",token);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4 && xhr.status !== 200){
+                alert("Nie udalo sie dodac komentarza!");
+            }
+        };
+        var comment = document.getElementById("commentText").value;
+        console.log(localStorage.getItem("projectId"));
+        var data = JSON.stringify({
+            "comment": comment,
+            "projectId": parseInt(id)
+        });
+        console.log(data);
+        xhr.send(data);
+    }else{
+        alert("Upewnij sie, ze jestes zalogowany!");
+    }
+}
+
+$(function fetchComments(){
+    var xhr = new XMLHttpRequest();
+    var url = "http://104.248.142.195:8080/projectManagement/getComments/project/";
+    var retrievedObject = localStorage.getItem("loginObject");
+    var id = localStorage.getItem("projectId");
+    if(retrievedObject != null && id != null){
+        var token = "Bearer " + JSON.parse(retrievedObject).token;
+        xhr.open("GET",url + id.toString(10), true);
+        xhr.setRequestHeader("Authorization",token);
+        var commentsToDisplay = "";
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4 && xhr.status === 200){
+                var comments = JSON.parse(xhr.responseText).listOfComments;
+                for(var i = 0; i < comments.length; i++){
+                    commentsToDisplay += `<div class="col-sm-8 mb-3">
+                    <div class="panel panel-white post panel-shadow">
+                      <div class="post-heading">
+                        <div class="pull-left image">
+                          <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                        </div>
+                        <div class="pull-left meta">
+                          <div class="title h5 mt-3">
+                            <a href="#"><b>` + comments[i].email + `</b></a>
+                            napisał:
+                          </div>
+                        </div>
+                      </div>
+                      <div class="post-description">
+                        <p>` + comments[i].comment + `</p>
+                      </div>
+                    </div>
+                  </div>`;
+                }
+                document.getElementById("commentList").innerHTML = commentsToDisplay;
+            }else if(xhr.readyState === 4 && xhr.status !== 200){
+                alert("Nie udalo sie pobrac komentarzy!");
+            }
+        }
+        xhr.send();
+    }else{
+        alert("Upewnij sie, ze jestes zalogowany!");
+    }
+});
