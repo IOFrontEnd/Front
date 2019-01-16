@@ -1,6 +1,6 @@
 function addProject(address,budget,description,neighbourhood,projectName) {
     var xhr = new XMLHttpRequest();
-    var url = "http://104.248.142.195:8080/login";
+    var url = "http://104.248.142.195:8080/projectManagement/createProject";
     var retrievedObject = localStorage.getItem('loginObject');
     if (retrievedObject != null) {
         var token = 'Bearer ' + JSON.parse(retrievedObject).token
@@ -20,10 +20,10 @@ function addProject(address,budget,description,neighbourhood,projectName) {
             "Address": address,
             "budget": budget,
             "description": description,
-            "id": 80,
-            "neighbourhood": neighbourhood,
+            "id": "80",
+            "neighbourhood": "Wojska Polskiego",
             "projectName": projectName,
-            "voteAmount": 0
+            "voteAmount": "0"
         });
         xhr.send(data);
     } else {
