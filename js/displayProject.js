@@ -20,7 +20,7 @@ $(function displayProject() {
         '</span></h5><p>' + selectedProject.description + '</p><br><br>'+
         '<p>Dzielnica: ' + selectedProject.neighbourhood+'</p><p>Ulica: '
         + selectedProject.Address+'</p><p>Sugerowany koszt: '
-        + selectedProject.budget +'</p></li>';
+        + selectedProject.budget +'zł</p></li>';
 
     document.getElementById("project").innerHTML = projectsToDisplay;
 });
