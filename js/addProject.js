@@ -17,7 +17,7 @@ function addProject(address,budget,description,neighbourhood,projectName) {
             }
         };
         var data = JSON.stringify({
-            "Address": address,
+            "address": address,
             "budget": budget,
             "description": description,
             "id": "83",
